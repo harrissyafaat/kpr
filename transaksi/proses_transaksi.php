@@ -76,8 +76,7 @@ if($pros=="simpan" || $pros=="pinjam"){
 							$q = mysqli_query ($koneksi, "UPDATE t_tabungan SET besar_tabungan = '$saldo_baru'
 					  						WHERE kode_tabungan='$data[kode_tabungan]'");
 
-							echo "<iframe src='../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=simpan'  name='framesimpan'></iframe>";
-							echo "<script>frames['framesimpan'].focus(); frames['framesimpan'].print();</script>";
+							echo "<script>window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=simpan';</script>";
 							break;
 
 		case "pinjam"	:	$tb->pinjam($besar_pinjaman);
@@ -87,8 +86,7 @@ if($pros=="simpan" || $pros=="pinjam"){
 							$q = mysqli_query ($koneksi, "UPDATE t_tabungan SET besar_tabungan = '$saldo_baru'
 							 				WHERE kode_tabungan='$data[kode_tabungan]'");
 
-							echo "<iframe src='../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=pinjam'  name='frame'></iframe>";
-							echo "<script>setTimeout(function(){},1000); frames['frame'].print(); window.location.replace('../index.php?pilih=2.1');</script>";
+							echo "<script>window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=pinjam';</script>";
 							break;
 
 		case "angsur"	:
@@ -104,8 +102,7 @@ if($pros=="simpan" || $pros=="pinjam"){
 							$q = mysqli_query($koneksi, "UPDATE t_tabungan SET besar_tabungan = '$saldo_baru'
 											WHERE kode_tabungan='$data[kode_tabungan]'");
 
-							echo "<iframe src='../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=angsur' style='display:none' name='frame'></iframe>";
-							echo "<script>setTimeout(function(){},1000); frames['frame'].print(); window.location.replace('../index.php?pilih=2.1');</script>";
+							echo "<script>window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=angsur';</script>";
 							break;
 		case "hapus" :
 			$kode_simpan = $_GET['kode_simpan'];

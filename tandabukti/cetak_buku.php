@@ -83,6 +83,8 @@ if ($jenis_transaksi == 'simpan') {
           font-size: 9pt;
       		-webkit-margin-after:5pt;
     </style>
+    <script src="../js/jquery-print/jquery.min.js"></script>
+    <script src="../js/jquery-print/jQuery.print.min.js"></script>
   </head>
   <body>
   	<?php
@@ -161,5 +163,20 @@ if ($jenis_transaksi == 'simpan') {
 		  echo "</table>";
   		echo "</div>"
   	?>
+    <script type='text/javascript'>
+    //<![CDATA[
+    jQuery(function($) {
+      'use strict';
+      var callBack = function() {
+          // alert("ok");
+          console.log("done");
+          // $(location).attr('href', '../index.php?pilih=2.1');
+      };
+      $('#printed-area').print({
+          deferred: $.Deferred().done(callBack)
+      });
+    });
+    //]]>
+    </script>
   </body>
 </html>
