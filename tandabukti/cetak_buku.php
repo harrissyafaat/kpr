@@ -129,12 +129,13 @@ if ($jenis_transaksi == 'simpan') {
 
               } else if ($jenis_transaksi == 'pinjam') {
                 // Display pnjam
+                $saldo += $row["besar_pinjaman"];
                 echo "<tr>";
                 echo "<td width='20%'><span id='row'>".$row["tgl_pinjam"]."</span></td>";
                 echo "<td width='15%'><span id='row'>".$row["kode_jenis_pinjam"]."</span></td>";
                 echo "<td width='15%'><span id='row'></span></td>";
                 echo "<td width='15%'><span id='row'>".$row["besar_pinjaman"]."</span></td>";
-                echo "<td width='35%'><span id='row'>".$total_saldo."</span></td>";
+                echo "<td width='35%'><span id='row'>".$saldo."</span></td>";
                 echo "</tr>";
                 $n++;
                 if ($n >= 27){
@@ -145,12 +146,13 @@ if ($jenis_transaksi == 'simpan') {
                  SET status='1' WHERE kode_pinjam='$row[kode_pinjam]'");
               } else if ($jenis_transaksi == 'angsur'){
                 // Display angsur
+                $saldo += $row["besar_angsuran"];
                 echo "<tr>";
                 echo "<td width=\"20%\"><span id='row'>".$row["tgl_angsur"]."</span></td>";
                 echo "<td width=\"15%\"><span id='row'></span></td>";
                 echo "<td width=\"15%\"><span id='row'>".$row["besar_angsuran"]."</span></td>";
                 echo "<td width=\"15%\"><span id='row'></span></td>";
-                echo "<td width=\"35%\"><span id='row'>".$total_saldo."</span></td>";
+                echo "<td width=\"35%\"><span id='row'>".$saldo."</span></td>";
                 echo "</tr>";
                 $n++;
                 if ($n >= 27){
