@@ -43,7 +43,7 @@ $jumlahRow = mysqli_num_rows($s);
 
 // max rows
 // $maxRow = floor($ph - ($mt + $mb) / ($fs + $sa + $sb));
-$spasi = $jumlahRow % 27;
+$spasi = $jumlahRow % 22;
 
 if ($jenis_transaksi == 'simpan') {
   $data = mysqli_query ($koneksi, "SELECT kode_simpan, kode_jenis_simpan, tgl_simpan, besar_simpanan FROM t_simpan WHERE kode_anggota='$kode_anggota' AND status=0 ORDER BY kode_simpan ASC");
@@ -72,30 +72,41 @@ if ($jenis_transaksi == 'simpan') {
     <title></title>
     <style>
       @media print {
+        @page {
+          size: auto;
+          margin: 250mm 25mm 25mm 25mm; 
+        }
       	#row {
       		display: block;
           font-size: 9pt;
       		-webkit-margin-after:5pt;
       	}
+        .spasi-halaman {
+          margin-top: 79px;
+        }
       }
       #row {
       		display: block;
           font-size: 9pt;
       		-webkit-margin-after:5pt;
+        }
+    .spasi-halaman {
+          margin-top: 79px;
+        }
     </style>
     <script src="../js/jquery-print/jquery.min.js"></script>
     <script src="../js/jquery-print/jQuery.print.min.js"></script>
   </head>
   <body>
   	<?php
-      echo "<div style='max-width:".$pw."px; max-height:".$ph."px; margin:".$mt."px ".$mr."px ".$mb."px ".$ml."px;'>";
+      echo "<div id='printed-area' style='max-width:".$pw."px; max-height:".$ph."px; margin:".$mt."px ".$mr."px ".$mb."px ".$ml."px;'>";
       $saldo = $_GET["saldo"];
   		$spaceTengah = $spasi;
       $n = 0;
+      echo "<hr>";
   		for ($i=0; $i<$spasi; $i++){
   			echo "<span id='row'>&nbsp;</span>";
         $n++;
-
   		}
 
       	echo "<table width=\"100%\" style=\"text-align: right;\">";
@@ -121,8 +132,11 @@ if ($jenis_transaksi == 'simpan') {
                 echo "<td width=\"20%\"><span id='row'>".$saldo."</span></td>";
                 echo "</tr>";
                 $n++;
-                if ($n >= 27){
-                  echo "<div style='margin:".$mt."px 0px ".$mb."px 0px;'></div>";
+                if ($n == 20){
+                  echo "<tr><td colspan='5'><span id='row'>&nbsp;</span></td></tr>";
+                  echo "<tr><td colspan='5'><span id='row'>&nbsp;</span></td></tr>";
+                  echo "<span >&nbsp;</span>";
+                  echo "<tr><td colspan='5'><div class='spasi-halaman'>&nbsp;<hr></div></td></tr>";
                 }
                 // Update Status Print
                 // $qus = mysqli_query ($koneksi, "UPDATE t_simpan SET status='1' WHERE kode_simpan='$row[kode_simpan]'");
@@ -155,8 +169,9 @@ if ($jenis_transaksi == 'simpan') {
                 echo "<td width=\"35%\"><span id='row'>".$saldo."</span></td>";
                 echo "</tr>";
                 $n++;
-                if ($n >= 27){
-                  echo "<div style='margin:".$mt."px 0px ".$mb."px 0px;'></div>";
+                if ($n == 31){
+                  echo "<div id='page2' style='margin:".$mt."px 0px ".$mb."px 0px;'>$nbsp;</div>";
+                  echo "<hr>";
                 }
                 // Update Status Print
                 $qus = mysqli_query ($koneksi, "UPDATE t_simpan SET status='1' WHERE kode_simpan='$row[kode_simpan]'");
@@ -165,7 +180,8 @@ if ($jenis_transaksi == 'simpan') {
       		}
       echo "</tr>";
 		  echo "</table>";
-  		echo "</div>"
+  		echo "</div>";
+      echo "n = ".$n;
   	?>
     <script type='text/javascript'>
     //<![CDATA[
