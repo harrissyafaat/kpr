@@ -53,7 +53,7 @@ $breadcrum = "<li class='breadcrumb-item'>Home</li>";
 			} //tutup switch
 
 			// Hitung Period Tampilan Set Hitung Bunga
-			$conn = new mysqli("localhost", "root", "", "kpr");
+			$conn = new mysqli("localhost", "root", "toor", "app-koperasi");
 			$tgl_sekarang = date('Y-m-d');
 			$qt = mysqli_query ($conn, "SELECT DATEDIFF('$tgl_sekarang', tgl_hitung) AS tgl_hitung FROM t_bagihasil ORDER BY id DESC LIMIT 1");
 			$rt = mysqli_fetch_array($qt, MYSQLI_ASSOC);
@@ -182,7 +182,7 @@ $breadcrum = "<li class='breadcrumb-item'>Home</li>";
 
 		</div>
 			<?php
-				$conn = new mysqli("localhost", "root", "", "kpr");
+				$conn = new mysqli("localhost", "root", "toor", "app-koperasi");
 				$tgl_sekarang = date('Y-m-d');
 				$qt = mysqli_query ($conn, "SELECT DATEDIFF('$tgl_sekarang', tgl_hitung) AS tgl_hitung FROM t_bagihasil ORDER BY id DESC LIMIT 1");
 				$rt = mysqli_fetch_array($qt, MYSQLI_ASSOC);

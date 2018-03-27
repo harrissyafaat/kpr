@@ -1,10 +1,10 @@
 <?php
 	error_reporting( error_reporting() & ~E_NOTICE );
 
-$dbname = "kpr";
+$dbname = "app-koperasi";
 $host = "localhost";
 $username = "root";
-$passwd = "";
+$passwd = "toor";
 
 $koneksi = mysqli_connect($host, $username, $passwd, $dbname);
 

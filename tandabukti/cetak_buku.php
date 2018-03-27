@@ -47,19 +47,19 @@ $spasi = $jumlahRow % 27;
 
 if ($jenis_transaksi == 'simpan') {
   $data = mysqli_query ($koneksi, "SELECT kode_simpan, kode_jenis_simpan, tgl_simpan, besar_simpanan FROM t_simpan WHERE kode_anggota='$kode_anggota' AND status=0 ORDER BY kode_simpan ASC");
-  $sq = mysqli_query ($koneksi, "SELECT sum(besar_simpanan) AS total_saldo FROM t_simpan WHERE kode_anggota='$kode_anggota'");
-  $d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
-  $total_saldo = $d['total_saldo'];
+  // $sq = mysqli_query ($koneksi, "SELECT sum(besar_simpanan) AS total_saldo FROM t_simpan WHERE kode_anggota='$kode_anggota'");
+  // $d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
+  // $total_saldo = $d['total_saldo'];
 } else if ($jenis_transaksi == 'pinjam') {
   $data = mysqli_query ($koneksi, "SELECT kode_jenis_pinjam, tgl_pinjam, besar_pinjaman FROM t_pinjam WHERE kode_anggota='$kode_anggota' AND status=0 ORDER BY kode_pinjam ASC");
-  $sq = mysqli_query ($koneksi, "SELECT sum(besar_pinjaman) AS total_saldo FROM t_pinjam WHERE kode_anggota='$kode_anggota'");
-  $d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
-  $total_saldo = $d['total_saldo'];
+  // $sq = mysqli_query ($koneksi, "SELECT sum(besar_pinjaman) AS total_saldo FROM t_pinjam WHERE kode_anggota='$kode_anggota'");
+  // $d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
+  // $total_saldo = $d['total_saldo'];
 } else if ($jenis_transaksi == 'angsur'){
   $data = mysqli_query ($koneksi, "SELECT * FROM t_pinjam WHERE kode_anggota='$kode_anggota' AND status=0 ORDER BY kode_pinjam ASC");
-  $sq = mysqli_query ($koneksi, "SELECT sum(besar_pinjaman) AS total_saldo FROM t_pinjam WHERE kode_anggota='$kode_anggota'");
-  $d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
-  $total_saldo = $d['total_saldo'];
+  // $sq = mysqli_query ($koneksi, "SELECT sum(besar_pinjaman) AS total_saldo FROM t_pinjam WHERE kode_anggota='$kode_anggota'");
+  // $d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
+  // $total_saldo = $d['total_saldo'];
 }
 
 
@@ -89,6 +89,7 @@ if ($jenis_transaksi == 'simpan') {
   <body>
   	<?php
       echo "<div style='max-width:".$pw."px; max-height:".$ph."px; margin:".$mt."px ".$mr."px ".$mb."px ".$ml."px;'>";
+      $saldo = $_GET["saldo"];
   		$spaceTengah = $spasi;
       $n = 0;
   		for ($i=0; $i<$spasi; $i++){
@@ -106,24 +107,25 @@ if ($jenis_transaksi == 'simpan') {
       			}
         		while ($row = $data->fetch_assoc()){
         			if ($jenis_transaksi == 'simpan'){
+                $saldo += $row["besar_simpanan"];
                 echo "<tr>";
-                echo "<td width=\"10%\"><span id='row'>".$row["tgl_simpan"]."</span></td>";
-                echo "<td width=\"15%\"><span id='row'>".$row["kode_jenis_simpan"]."</span></td>";
+                echo "<td width=\"15%\"><span id='row'>".$row["tgl_simpan"]."</span></td>";
+                echo "<td width=\"10%\"><span id='row'>".$row["kode_jenis_simpan"]."</span></td>";
                 if ($kode_jenis_simpan == 2){
-                  echo "<td width=\"30%\"><span id='row'>".abs($row["besar_simpanan"])."</span></td>";
-                  echo "<td width=\"30%\"><span id='row'></span></td>";
+                  echo "<td width=\"20%\"><span id='row'>".abs($row["besar_simpanan"])."</span></td>";
+                  echo "<td width=\"20%\"><span id='row'></span></td>";
                 } else {
-                  echo "<td width=\"30%\"><span id='row'></span></td>";
-                  echo "<td width=\"30%\"><span id='row'>".$row["besar_simpanan"]."</span></td>";
+                  echo "<td width=\"20%\"><span id='row'></span></td>";
+                  echo "<td width=\"20%\"><span id='row'>".$row["besar_simpanan"]."</span></td>";
                 }
-                echo "<td width=\"35%\"><span id='row'>".$total_saldo."</span></td>";
+                echo "<td width=\"20%\"><span id='row'>".$saldo."</span></td>";
                 echo "</tr>";
                 $n++;
                 if ($n >= 27){
                   echo "<div style='margin:".$mt."px 0px ".$mb."px 0px;'></div>";
                 }
                 // Update Status Print
-                $qus = mysqli_query ($koneksi, "UPDATE t_simpan SET status='1' WHERE kode_simpan='$row[kode_simpan]'");
+                // $qus = mysqli_query ($koneksi, "UPDATE t_simpan SET status='1' WHERE kode_simpan='$row[kode_simpan]'");
 
               } else if ($jenis_transaksi == 'pinjam') {
                 // Display pnjam

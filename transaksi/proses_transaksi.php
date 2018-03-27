@@ -75,8 +75,11 @@ if($pros=="simpan" || $pros=="pinjam"){
 
 							$q = mysqli_query ($koneksi, "UPDATE t_tabungan SET besar_tabungan = '$saldo_baru'
 					  						WHERE kode_tabungan='$data[kode_tabungan]'");
+							$sq = mysqli_query ($koneksi, "SELECT sum(besar_pinjaman) AS total_saldo FROM t_pinjam WHERE kode_anggota='$kode_anggota'");
+						  	$d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
+						  	$total_saldo = $d['total_saldo'];
 
-							echo "<script>window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=simpan';</script>";
+							echo "<script>window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=simpan&saldo=".$total_saldo."';</script>";
 							break;
 
 		case "pinjam"	:	$tb->pinjam($besar_pinjaman);
