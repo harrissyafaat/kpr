@@ -79,7 +79,7 @@ if($pros=="simpan" || $pros=="pinjam"){
 						  	$d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
 						  	$total_saldo = $d['total_saldo'];
 
-							echo "<script>window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=simpan&saldo=".$total_saldo."';</script>";
+							echo "<script>var txt;var r=confirm('Cetak hasil?');if (r==false){window.location = '../index.php?pilih=2.1';}else{window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=simpan&saldo=".$total_saldo."';}</script>";
 							break;
 
 		case "pinjam"	:	$tb->pinjam($besar_pinjaman);
