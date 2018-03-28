@@ -71,41 +71,48 @@ if($pros=="simpan" || $pros=="pinjam"){
 					  			$nominal = 0 - $nominal;
 					  		}
 
+					  		$sq = mysqli_query ($koneksi, "SELECT sum(besar_simpanan) AS total_saldo FROM t_simpan WHERE kode_anggota='$kode_anggota'");
+						  	$d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
+						  	$total_saldo = $d['total_saldo'];
+
 							$qtambah = mysqli_query ($koneksi, "INSERT INTO t_simpan (kode_simpan, kode_jenis_simpan, kode_anggota, tgl_simpan, besar_simpanan, u_entry, tgl_entri) VALUES('','$kode_jenis_transaksi','$kode_anggota','$tgl_simpan','$nominal','$u_entry','$tgl_entri')");
 
 							$q = mysqli_query ($koneksi, "UPDATE t_tabungan SET besar_tabungan = '$saldo_baru'
 					  						WHERE kode_tabungan='$data[kode_tabungan]'");
-							$sq = mysqli_query ($koneksi, "SELECT sum(besar_pinjaman) AS total_saldo FROM t_pinjam WHERE kode_anggota='$kode_anggota'");
-						  	$d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
-						  	$total_saldo = $d['total_saldo'];
 
 							echo "<script>var txt;var r=confirm('Cetak hasil?');if (r==false){window.location = '../index.php?pilih=2.1';}else{window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=simpan&saldo=".$total_saldo."';}</script>";
 							break;
 
-		case "pinjam"	:	$tb->pinjam($besar_pinjaman);
+		case "pinjam"	:	$sq = mysqli_query ($koneksi, "SELECT sum(sisa_pinjaman) AS total_saldo FROM 					t_pinjam WHERE kode_anggota='$kode_anggota'");
+						  	$d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
+						  	$total_saldo = $d['total_saldo'];
+
+							$tb->pinjam($besar_pinjaman);
 							$saldo_baru = $tb->cek_saldo();
 							$qtambah = mysqli_query ($koneksi, "INSERT INTO t_pinjam
 							VALUES('','$kode_anggota','$kode_jenis_pinjam','$tgl_pinjam','$besar_pinjaman','$besar_pinjaman','$besar_angsuran','$lama_angsuran','$lama_angsuran','$u_entry','$tgl_entri','0')");
 							$q = mysqli_query ($koneksi, "UPDATE t_tabungan SET besar_tabungan = '$saldo_baru'
 							 				WHERE kode_tabungan='$data[kode_tabungan]'");
 
-							echo "<script>window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=pinjam';</script>";
+							echo "<script>var txt;var r=confirm('Cetak hasil?');if (r==false){window.location = '../index.php?pilih=2.1';}else{window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=pinjam&saldo=".$total_saldo."';}</script>";
 							break;
 
-		case "angsur"	:
+		case "angsur"	:	$sq = mysqli_query ($koneksi, "SELECT sum(sisa_pinjaman) AS total_saldo FROM 					t_pinjam WHERE kode_anggota='$kode_anggota'");
+						  	$d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
+						  	$total_saldo = $d['total_saldo'];
+
 							$tb = new Tabungan($data['besar_angsuran']);
 							$tb->simpan($besar_angsuran);
 					  		$saldo_baru = $tb->cek_saldo();
 
 							//INSERT data angsur
-							$qtambah = mysqli_query($koneksi, "INSERT INTO t_angsur
-												VALUES('','$kode_pinjam','$kode_anggota','$tgl_angsur','$besar_angsuran','$angsuran_ke','$u_entry','$tgl_entri')");
+							$qtambah = mysqli_query($koneksi, "INSERT INTO t_angsur VALUES('','$kode_pinjam','$kode_anggota','$tgl_angsur','$besar_angsuran','$angsuran_ke','$u_entry','$tgl_entri', '0')");
 
 							$qubah = mysqli_query($koneksi, "UPDATE t_pinjam SET sisa_angsuran = '$sisang', sisa_pinjaman = '$sipin' WHERE kode_pinjam='$kode_pinjam'");
 							$q = mysqli_query($koneksi, "UPDATE t_tabungan SET besar_tabungan = '$saldo_baru'
 											WHERE kode_tabungan='$data[kode_tabungan]'");
 
-							echo "<script>window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=angsur';</script>";
+							echo "<script>var txt;var r=confirm('Cetak hasil?');if (r==false){window.location = '../index.php?pilih=2.1';}else{window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=angsur&saldo=".$total_saldo."';}</script>";
 							break;
 		case "hapus" :
 			$kode_simpan = $_GET['kode_simpan'];
