@@ -48,7 +48,7 @@ while($data=mysqli_fetch_array($sql, MYSQLI_ASSOC)){
 			<td><?php echo $data['u_entry'];?></td>
 			<td><?php echo Tgl($data['tgl_entri']);?></td>
 			<td align="center">
-<a class="btn btn-primary" href=index.php?pilih=4.1&aksi=ubah&kode_jenis_simpan=<?php echo $data['kode_jenis_simpan'];?>><i class="fa fa-edit"></i></a>
+<a class="btn btn-primary" href=index.php?pilih=4.1&aksi=ubah&kode_jenis_simpan=<?php echo $data['kode_jenis_simpan'];?>><i class="fa fa-edit"></i></a><a class="btn btn-danger" href=index.php?pilih=4.1&aksi=hapus&kode_jenis_simpan=<?php echo $data['kode_jenis_simpan'];?>><i class="fa fa-trash"></i></a>
 			</td>
 		</tr>
 <?php
