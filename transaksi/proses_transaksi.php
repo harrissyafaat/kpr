@@ -56,7 +56,7 @@ if($pros=="simpan" || $pros=="pinjam"){
 	$data=mysqli_fetch_array($q, MYSQLI_ASSOC);
 	$tb = new Tabungan($data['besar_tabungan']);
 
-	$qu = mysqli_query ($koneksi, "SELECT * FROM t_pinjam WHERE kode_anggota='$kode_anggota'");
+	$qu = mysqli_query ($koneksi, "SELECT * FROM t_pinjam WHERE kode_anggota='$kode_anggota' AND kode_pinjam='$kode_pinjam'");
 	$data2=mysqli_fetch_array($qu, MYSQLI_ASSOC);
 
 	$sisang = $data2['lama_angsuran'] - $angsuran_ke;
