@@ -145,16 +145,11 @@
 		b = document.getElementById('besar_angsuran').value;
 		d = document.getElementById('besar_angsurane').value;
 		c = a - b;
-		if (c <= 0) {
+		if (c < 0) {
 			alert("Error! Input Besar Angsuran tidak Boleh Melebihi Sisa Pinjaman.");
 			$('#besar_angsuran').val(" ");
 			$('#besar_angsuran').val(d);
-
 		}
-		else{
-
-		}
-
 	}
 	</script>
 
@@ -209,9 +204,9 @@
             <td><?php echo $data['pekerjaan'];?></td>
             <td align="center"><?php echo $data['tgl_masuk'];?></td>
             <td align="center">
-	<a class="btn btn-primary" href=index.php?pilih=2.1&aksi=simpan&kode_anggota=<?php echo $data['kode_anggota'];?>><i class="fa fa-save"></i></a>
-	<a class="btn btn-warning" href=index.php?pilih=2.1&aksi=pinjam&kode_anggota=<?php echo $data['kode_anggota'];?>><i class="fa fa-save"></i></a>
-  <a class="btn btn-success" href=index.php?pilih=2.1&aksi=angsur&kode_anggota=<?php echo $data['kode_anggota'];?>><i class="fa fa-save"></i></a>
+	<a class="btn btn-primary" href=index.php?pilih=2.1&aksi=simpan&kode_anggota=<?php echo $data['kode_anggota'];?>><strong>S</strong></a>
+	<a class="btn btn-warning" href=index.php?pilih=2.1&aksi=pinjam&kode_anggota=<?php echo $data['kode_anggota'];?>><strong>P</strong></a>
+  <a class="btn btn-success" href=index.php?pilih=2.1&aksi=angsur&kode_anggota=<?php echo $data['kode_anggota'];?>><strong>A</strong></a>
 			</td>
         </tr>
 <?php
@@ -292,10 +287,8 @@
 	$( "#jenis_transaksi" ).change(function() {
 		if (this.value == "simpan"){
 			$("#jenis_simpanan").show();
-			// alert('Haloo');
 		} else {
 			$("#jenis_simpanan").hide();
-			// alert('Haloo');
 		}
 
 	});
@@ -365,8 +358,7 @@ if ($_GET['aksi'] == "simpan"){
             <td align="center"><?php echo $data['tgl_entri'];?></td>
             <td><?php echo $data['kode_jenis_simpan'];?></td>
             <td><?php echo $data['besar_simpanan'];?></td>
-            <td align="center">
-	<a href=transaksi/proses_transaksi.php?pros=hapus&kode_simpan=<?php echo $data['kode_simpan'];?>><i class="fa fa-trash"></i></a>
+            <td align="center"><a class="btn btn-danger" href=transaksi/proses_transaksi.php?pros=hapus&kode_simpan=<?php echo $data['kode_simpan'];?>><i class="fa fa-trash"></i></a>
 			</td>
         </tr>
 
