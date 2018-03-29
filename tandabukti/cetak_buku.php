@@ -8,7 +8,7 @@ $quality = 96;
 
 // Page Ratio in CM
 $pageWidth = 13;
-$pageHeight = 18;
+$pageHeight = 17.6;
 
 // Page Margin in CM
 $marginTop = 2.5;
@@ -47,7 +47,7 @@ if ($jenis_transaksi == 'simpan') {
   $s=mysqli_query($koneksi,$squery);
   $jumlahRow = mysqli_num_rows($s);
 } else if ($jenis_transaksi == 'pinjam') {
-  $data = mysqli_query ($koneksi, "SELECT kode_jenis_pinjam, tgl_pinjam, besar_pinjaman FROM t_pinjam WHERE kode_anggota='$kode_anggota' AND status=0 ORDER BY kode_pinjam ASC");
+  $data = mysqli_query ($koneksi, "SELECT kode_pinjam, kode_jenis_pinjam, tgl_pinjam, besar_pinjaman FROM t_pinjam WHERE kode_anggota='$kode_anggota' AND status=0 ORDER BY kode_pinjam ASC");
   $jraquery = "SELECT * FROM t_angsur WHERE kode_anggota='$kode_anggota' AND status=1";
   $jra=mysqli_query($koneksi,$jraquery);
   $jumlahRow += mysqli_num_rows($jra);
@@ -63,7 +63,7 @@ if ($jenis_transaksi == 'simpan') {
   $jrp=mysqli_query($koneksi,$jrpquery);
   $jumlahRow += mysqli_num_rows($jrp);
 }
-$spasi = $jumlahRow % 25;
+$spasi = $jumlahRow % 21;
 ?>
 
 <!DOCTYPE html>
@@ -73,10 +73,6 @@ $spasi = $jumlahRow % 25;
     <title></title>
     <style>
       @media print {
-        @page {
-          size: auto;
-          margin: 250mm 25mm 25mm 25mm; 
-        }
       	#row {
       		display: block;
           text-align: center;
@@ -107,41 +103,34 @@ $spasi = $jumlahRow % 25;
   		$spaceTengah = $spasi;
       $n = 0;
       // echo "<hr>";
+      echo "<table width='100%' style='text-align: right;'>";
   		for ($i=0; $i<$spasi; $i++){
-  			echo "<span id='row'>&nbsp;</span>";
+  			echo "<tr><td><span id='row'>&nbsp;</span></td></tr>";
         $n++;
   		}
-
-      	echo "<table width=\"100%\" style=\"text-align: right;\">";
       		if ($data->num_rows > 0){
-      			if ($spasiTengah == 12){
-      				echo "<span id='row'>&nbsp;</span>";
-      				echo "<span id='row'>&nbsp;</span>";
-              $n += 2;
-      			}
         		while ($row = $data->fetch_assoc()){
         			if ($jenis_transaksi == 'simpan'){
                 $saldo += $row["besar_simpanan"];
                 echo "<tr>";
-                echo "<td width=\"15%\"><span id='row'>".$row["tgl_simpan"]."</span></td>";
-                echo "<td width=\"10%\"><span id='row'>".$row["kode_jenis_simpan"]."</span></td>";
+                echo "<td width='15%'><span id='row'>".$row["tgl_simpan"]."</span></td>";
+                echo "<td width='10%'><span id='row'>".$row["kode_jenis_simpan"]."</span></td>";
                 if ($row["kode_jenis_simpan"] == 2){
-                  echo "<td width=\"17%\"><span id='row'>".abs($row["besar_simpanan"])."</span></td>";
-                  echo "<td width=\"17%\"><span id='row'></span></td>";
+                  echo "<td width='18%'><span id='row'>".abs($row["besar_simpanan"])."</span></td>";
+                  echo "<td width='18%'><span id='row'></span></td>";
                 } else {
-                  echo "<td width=\"17%\"><span id='row'></span></td>";
-                  echo "<td width=\"17%\"><span id='row'>".$row["besar_simpanan"]."</span></td>";
+                  echo "<td width='18%'><span id='row'></span></td>";
+                  echo "<td width='18%'><span id='row'>".$row["besar_simpanan"]."</span></td>";
                 }
-                echo "<td width=\"26%\"><span id='row' style='text-align:left'>".$saldo."</span></td>";
+                echo "<td width='24%'><span id='row' style='text-align:left'>".$saldo."</span></td>";
                 echo "</tr>";
                 $n++;
-                if ($n == 25){
-                  // echo "<tr><td colspan='5'><span>&nbsp;</span></td></tr>";
+                if ($n == 21){
                   echo "<tr><td colspan='5'><br><br></td></tr>";
                   echo "<tr><td colspan='5'><div class='spasi-halaman'>&nbsp;</div></td></tr>";
                 }
                 // Update Status Print
-                // $qus = mysqli_query ($koneksi, "UPDATE t_simpan SET status='1' WHERE kode_simpan='$row[kode_simpan]'");
+                $qus = mysqli_query ($koneksi, "UPDATE t_simpan SET status='1' WHERE kode_simpan='$row[kode_simpan]'");
 
               } else if ($jenis_transaksi == 'pinjam') {
                 // Display pnjam
@@ -149,36 +138,33 @@ $spasi = $jumlahRow % 25;
                 echo "<tr>";
                 echo "<td width='15%'><span id='row'>".$row["tgl_pinjam"]."</span></td>";
                 echo "<td width='10%'><span id='row'>".$row["kode_jenis_pinjam"]."</span></td>";
-                echo "<td width='17%'><span id='row'></span></td>";
-                echo "<td width='17%'><span id='row'>".$row["besar_pinjaman"]."</span></td>";
-                echo "<td width='26%'><span id='row' style='text-align:left;'>".$saldo."</span></td>";
+                echo "<td width='18%'><span id='row'></span></td>";
+                echo "<td width='18%'><span id='row'>".$row["besar_pinjaman"]."</span></td>";
+                echo "<td width='24%'><span id='row' style='text-align:left;'>".$saldo."</span></td>";
                 echo "</tr>";
                 $n++;
-                if ($n == 25){
-                  // echo "<tr><td colspan='5'><span>&nbsp;</span></td></tr>";
+                if ($n == 21){
                   echo "<tr><td colspan='5'><br><br></td></tr>";
                   echo "<tr><td colspan='5'><div class='spasi-halaman'>&nbsp;</div></td></tr>";
                 }
                 // Update Status Print
-                $qus = mysqli_query ($koneksi, "UPDATE t_pinjam
-                 SET status='1' WHERE kode_pinjam='$row[kode_pinjam]'");
+                $qus = mysqli_query ($koneksi, "UPDATE t_pinjam SET status='1' WHERE kode_pinjam='$row[kode_pinjam]'");
               } else if ($jenis_transaksi == 'angsur'){
                 // Display angsur
                 echo "<tr>";
                 echo "<td width=15%><span id='row'>".$row["tgl_angsur"]."</span></td>";
                 echo "<td width=10%><span id='row'></span></td>";
-                echo "<td width=17%><span id='row'>".$row["besar_angsuran"]."</span></td>";
-                echo "<td width=17%><span id='row'></span></td>";
-                echo "<td width=26%><span id='row' style='text-align:left;'>".($saldo - $row["besar_angsuran"])."</span></td>";
+                echo "<td width=18%><span id='row'>".$row["besar_angsuran"]."</span></td>";
+                echo "<td width=18%><span id='row'></span></td>";
+                echo "<td width=24%><span id='row' style='text-align:left;'>".($saldo - $row["besar_angsuran"])."</span></td>";
                 echo "</tr>";
                 $n++;
-                if ($n == 25){
-                  // echo "<tr><td colspan='5'><span>&nbsp;</span></td></tr>";
+                if ($n == 21){
                   echo "<tr><td colspan='5'><br><br></td></tr>";
                   echo "<tr><td colspan='5'><div class='spasi-halaman'>&nbsp;</div></td></tr>";
                 }
                 // Update Status Print
-                // $qus = mysqli_query ($koneksi, "UPDATE t_simpan SET status='1' WHERE kode_simpan='$row[kode_simpan]'");
+                $qus = mysqli_query ($koneksi, "UPDATE t_angsur SET status='1' WHERE kode_angsur='$row[kode_angsur]'");
               }
       			}
       		}
@@ -191,9 +177,7 @@ $spasi = $jumlahRow % 25;
     jQuery(function($) {
       'use strict';
       var callBack = function() {
-          // alert("ok");
-          console.log("done");
-          // $(location).attr('href', '../index.php?pilih=2.1');
+          $(location).attr('href', '../index.php?pilih=2.1');
       };
       $('#printed-area').print({
           deferred: $.Deferred().done(callBack)

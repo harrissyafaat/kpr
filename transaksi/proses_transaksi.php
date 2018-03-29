@@ -71,7 +71,7 @@ if($pros=="simpan" || $pros=="pinjam"){
 					  			$nominal = 0 - $nominal;
 					  		}
 
-					  		$sq = mysqli_query ($koneksi, "SELECT sum(besar_simpanan) AS total_saldo FROM t_simpan WHERE kode_anggota='$kode_anggota'");
+					  		$sq = mysqli_query ($koneksi, "SELECT sum(besar_simpanan) AS total_saldo FROM t_simpan WHERE kode_anggota='$kode_anggota' AND status='1'");
 						  	$d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
 						  	$total_saldo = $d['total_saldo'];
 
@@ -97,9 +97,10 @@ if($pros=="simpan" || $pros=="pinjam"){
 							echo "<script>var txt;var r=confirm('Cetak hasil?');if (r==false){window.location = '../index.php?pilih=2.1';}else{window.location = '../tandabukti/cetak_buku.php?kode_anggota=".$kode_anggota."&jenis_transaksi=pinjam&saldo=".$total_saldo."';}</script>";
 							break;
 
-		case "angsur"	:	$sq = mysqli_query ($koneksi, "SELECT sum(sisa_pinjaman) AS total_saldo FROM 					t_pinjam WHERE kode_anggota='$kode_anggota'");
-						  	$d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
-						  	$total_saldo = $d['total_saldo'];
+		case "angsur"	:
+							$sq = mysqli_query ($koneksi, "SELECT sum(sisa_pinjaman) AS total_saldo FROM t_pinjam WHERE kode_anggota='$kode_anggota'");
+						  $d = mysqli_fetch_array($sq, MYSQLI_ASSOC);
+						  $total_saldo = $d['total_saldo'];
 
 							$tb = new Tabungan($data['besar_angsuran']);
 							$tb->simpan($besar_angsuran);
