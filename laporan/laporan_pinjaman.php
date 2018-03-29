@@ -48,7 +48,7 @@
 			<td align="center"><?php echo "Rp. ".($data['total']);?></td>
 			<td align="center"><?php echo "Rp. ".($data['sisa_pinjaman']);?></td>
 			<td align="center">
-			<a href=index.php?pilih=3.3&aksi=show&kode_anggota=<?php echo $data['kode_anggota'];?>><i class="fa fa-user"></i></a>
+			<a class="btn btn-primary" href=index.php?pilih=3.3&aksi=show&kode_anggota=<?php echo $data['kode_anggota'];?>><i class="fa fa-user"></i></a>
 			</td>
       </tr>
 <?php

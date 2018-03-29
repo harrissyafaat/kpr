@@ -61,7 +61,7 @@
             <td><?php echo $data['pekerjaan'];?></td>
             <td><?php echo $data['tgl_masuk'];?></td>
             <td><?php echo $data['tgl_keluar'];?></td>
-            <td align="center"><a class="btn btn-default"><i class="fa fa-user"></i></a></td>
+            <td align="center"><button type="button" class="btn btn-primary disabled"><i class="fa fa-user"></i></button></td>
         </tr>
 <?php
 		}
